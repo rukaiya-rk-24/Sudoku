@@ -1,0 +1,32 @@
+bool isSafe(vector<vector<char>> & board,int i,int j,int no){
+        for(int k=0;k<9;k++){
+            if(board[i][k]==no+'0' || board[k][j]==no+'0') return false;
+        }
+        int sx=(i/3)*3, sy=(j/3)*3;
+        for(int x=sx;x<sx+3;x++){
+            for(int y=sy;y<sy+3;y++){
+                if(board[x][y]==no+'0') return false;
+            }
+        }
+        return true;
+    }
+    bool solve(vector<vector<char>> & board,int i,int j,int n){
+        if(i==n){
+            return true;
+        }
+        if(j==n) return solve(board,i+1,0,n);
+        if(board[i][j]!='.') return solve(board,i,j+1,n);
+        for(int no=1;no<=n;no++){
+            if(isSafe(board,i,j,no)){
+                board[i][j]=no+'0';
+                bool sub = solve(board,i,j+1,n);
+                if(sub) return true;
+            }
+        }
+        board[i][j]='.';
+        return false;
+    }
+    void solveSudoku(vector<vector<char>>& board) {
+        bool flag=solve(board,0,0,9);
+        return;
+    }
